@@ -1,0 +1,36 @@
+{
+  "name": "swagger-changelog",
+  "version": "0.0.1",
+  "description": "API changelog generator based on swagger diffs",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape src/tests/*.test.js | tap-spec"
+  },
+  "bin": {
+    "swagger-changelog": "bin/swagger-changelog.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swimlane/swagger-changelog.git"
+  },
+  "keywords": [
+    "swagger",
+    "swimlane",
+    "changelog",
+    "diff"
+  ],
+  "author": "Swimlane <info@swimlane.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/swimlane/swagger-changelog/issues"
+  },
+  "homepage": "https://github.com/swimlane/swagger-changelog#readme",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "swagger-diff": "^0.6.0"
+  },
+  "devDependencies": {
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3"
+  }
+}
