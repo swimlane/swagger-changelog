@@ -10,13 +10,10 @@ Generate a changelog between two versions of a swagger spec
 ## Example
 ```
 $ swagger-changelog src/tests/specs/petstore.1.json src/tests/specs/petstore.1.1.json
-Breaking: /pet/findByStatus - Deleted
-Breaking: /pet/findByTags - Deleted
-Breaking: /pet/{petId} (get) - Required param petIdz added
 Changes: /pet (put) - Method added
-Changes: /pet/{petId} (get) - Param petId deleted
-Changes: /pet/findByStatii - Added
-Changes: /pet/findByTag - Added
+Renamed: Path '/pet/findByStatus' renamed to '/pet/findByStatii'
+Renamed: Path '/pet/findByTags' renamed to '/pet/findByTag'
+Renamed: /pet/{petId} (get) - Param 'petId' renamed to 'petIdz'
 ```
 
 # API Usage
