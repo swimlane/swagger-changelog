@@ -3,43 +3,45 @@
 const test = require('tape');
 const buildChangelog = require('../app/changelog').buildChangelog;
 
-const diff = { errors:
-   [ { ruleId: 'delete-path',
-       message: '/pet/findByStatus - Deleted',
-       path: '/pet/findByStatus' },
-     { ruleId: 'delete-path',
-       message: '/pet/findByTags - Deleted',
-       path: '/pet/findByTags' },
-     { ruleId: 'add-required-param',
-       message: '/pet/{petId} (get) - Required param petIdz added',
-       path: '/pet/{petId}',
-       method: 'get',
-       param: 'petIdz' } ],
-  warnings: [],
-  infos:
-   [ { ruleId: 'add-method',
-       message: '/pet (put) - Method added',
-       path: '/pet',
-       method: 'put' },
-     { ruleId: 'delete-param',
-       message: '/pet/{petId} (get) - Param petId deleted',
-       path: '/pet/{petId}',
-       method: 'get',
-       param: 'petId' },
-     { ruleId: 'add-path',
-       message: '/pet/findByStatii - Added',
-       path: '/pet/findByStatii' },
-     { ruleId: 'add-path',
-       message: '/pet/findByTag - Added',
-       path: '/pet/findByTag' } ],
-  unmatchDiffs: [] };
+const diff = [
+  {
+    ruleId: 'add-method',
+    message: '/pet (put) - Method added',
+    path: '/pet',
+    method: 'put',
+    type: 'infos'
+  },
+  {
+    ruleId: 'rename-method',
+    message: '/pet/findByStatus renamed to /pet/findByStatii',
+    path: '/pet/findByStatus',
+    newPath: '/pet/findByStatii',
+    type: 'renamed'
+  },
+  {
+    ruleId: 'rename-method',
+    message: '/pet/findByTags renamed to /pet/findByTag',
+    path: '/pet/findByTags',
+    newPath: '/pet/findByTag',
+    type: 'renamed'
+  },
+  {
+    ruleId: 'rename-param',
+    message: '/pet/{petId} (get) - Param petId renamed to petIdz',
+    path: '/pet/{petId}',
+    method: 'get',
+    param: 'petId',
+    newParam: 'petIdz',
+    type: 'renamed'
+  }
+];
 
 test('Build Change Log', (assert) => {
   const changelog = buildChangelog(diff);
 
   assert.ok(changelog, 'buildChangelog should return a valid object');
   assert.ok(changelog.paragraph.length > 0, 'buildChangelog should have a paragraph member');
-  assert.equal(changelog.items.length, 7, 'buildChangelog should have seven items');
+  assert.equal(changelog.items.length, 4, 'buildChangelog should have 4 items');
 
   assert.end();
 });

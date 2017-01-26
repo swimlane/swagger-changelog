@@ -12,6 +12,7 @@ program
 
 changelog(program.args[0], program.args[1])
   .then((log) => {
+    /* eslint no-console: 0 */
     console.log(log.paragraph);
   })
   .catch((err) => {

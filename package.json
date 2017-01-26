@@ -1,10 +1,11 @@
 {
   "name": "swagger-changelog",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "API changelog generator based on swagger diffs",
   "main": "index.js",
   "scripts": {
-    "test": "tape src/tests/*.test.js | tap-spec"
+    "test": "tape src/tests/*.test.js | tap-spec",
+    "lint": "eslint ."
   },
   "bin": {
     "swagger-changelog": "bin/swagger-changelog.js"
@@ -27,10 +28,20 @@
   "homepage": "https://github.com/swimlane/swagger-changelog#readme",
   "dependencies": {
     "commander": "^2.9.0",
+    "damerau-levenshtein": "^1.0.3",
     "swagger-diff": "^0.6.0"
   },
   "devDependencies": {
+    "eslint": "^3.14.1",
+    "eslint-config-swimlane": "^1.0.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3"
+  },
+  "eslintConfig": {
+    "extends": "swimlane/base",
+    "env": {
+      "es6": true,
+      "node": true
+    }
   }
 }
