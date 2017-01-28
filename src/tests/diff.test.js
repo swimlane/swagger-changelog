@@ -19,7 +19,7 @@ test('Diff', (assert) => {
         return counts;
       }, { errors: 0, warnings: 0, infos: 0, unmatched: 0});
 
-      assert.equal(typeCount.errors, 3, 'Diff should find three errors');
-      assert.equal(typeCount.infos, 4, 'Diff should find 4 infos');
+      assert.equal(typeCount.errors, 4, 'Diff should find four errors');
+      assert.equal(typeCount.infos, 5, 'Diff should find five infos');
     });
 });

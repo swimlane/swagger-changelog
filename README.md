@@ -1,11 +1,25 @@
 # Swagger Changelog
+
+[![npm version](https://badge.fury.io/js/swagger-changelog.svg)](https://badge.fury.io/js/swagger-changelog)
+
 Generate a changelog between two versions of a swagger spec
 
 # Install
 `npm install -g swagger-changelog`
 
 # Usage
-`swagger-changelog <path/to/spec1> <path/to/spec2>`
+`swagger-changelog [options] <path/to/spec1> <path/to/spec2>`
+
+## Options
+```
+-h, --help          output usage information
+-V, --version       output the version number
+-e, --endpoint <n>  Endpoint Threshold, 0-1.0 (Default 0.85, higher means closer)
+-p, --param <n>     Param Threshold, 0-1.0 (Default 0.75, higher means closer)
+```
+
+## Distance Thresholds
+The Endpoint and Param thresholds are the minimum value for the Damerau - Levenshtein comparison ratio. It scores from 0-1 how similar the two words are.
 
 ## Example
 ```
@@ -20,7 +34,7 @@ Renamed: /pet/{petId} (get) - Param 'petId' renamed to 'petIdz'
 ```
 const changelog = require(swagger-changelog).changelog;
 
-changelog('path/to/spec1', 'path/to/spec2')
+changelog('path/to/spec1', 'path/to/spec2', config)
   .then((log) => {
     console.log(log.paragraph);
   });

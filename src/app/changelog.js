@@ -54,10 +54,17 @@ function diff (oldSpec, newSpec) {
  * Detect a rename by comparing deleted paths/arguments with new paths/arguments
  * @example deleted: /foo/bar, added: /foo/bat should result in a renamed: /foo/bar -> /foo/bar
  *
- * @param  {Object} diff a diff object from diff()
- * @return {Object}      Any renamed items are removed from object and added to new location
+ * @param  {Object} diff   a diff object from diff()
+ * @param  {Object} config settings for detection:
+ * {
+ *  thresholds: { // settings for thresholds
+ *    endpoint: float, set the ratio threshold that counts as a match, 0-1.0 (higher means closer)
+ *    param: float, set the ratio threshold that counts as a match, 0-1.0 (higher means closer)
+ *  }
+ * }
+ * @return {Object}        Any renamed items are removed from object and added to new location
  */
-function detectRenames (diff) {
+function detectRenames (diff, config) {
   let retVal = diff;
   const changes = {
     endpoints: {
@@ -69,6 +76,12 @@ function detectRenames (diff) {
       added: []
     }
   };
+
+  config = config || {};
+  const thresholds = config.thresholds || {};
+
+  const THRESHOLD_ENDPOINT = process.env.SC_THRES_ENDPOINT || thresholds.endpoint;
+  const THRESHOLD_PARAM = process.env.SC_THRES_PARAM || thresholds.param;
 
   // split out endpoints and params
   for (let change of diff) {
@@ -110,7 +123,7 @@ function detectRenames (diff) {
       return best;
     }, { endpoint: '', similarity: 0 });
 
-    if (closest.similarity >= 0.85) {
+    if (closest.similarity >= (parseFloat(THRESHOLD_ENDPOINT) || 0.85)) {
       // we have  a match
       // strip out the add/deleted
       retVal = retVal.filter((item) => {
@@ -142,7 +155,7 @@ function detectRenames (diff) {
       return best;
     }, { param: {}, similarity: 0 });
 
-    if (closest.similarity >= 0.75) {
+    if (closest.similarity >= (parseFloat(THRESHOLD_PARAM) || 0.75)) {
       // we have  a match
       // strip out the add/deleted
       retVal = retVal.filter((item) => {
@@ -205,11 +218,23 @@ function buildChangelog (diff) {
  * Generate a changelog between two swagger specs
  * @param  {Object} oldSpec a valid swagger spec
  * @param  {Object} newSpec a valid swagger spec
+ * @param  {Object} config settings for detection:
+ * {
+ *  thresholds: { // settings for thresholds
+ *    endpoint: float, set the ratio threshold that counts as a match, 0-1.0 (higher means closer)
+ *    param: float, set the ratio threshold that counts as a match, 0-1.0 (higher means closer)
+ *  }
+ * }
  * @return {Promise}        resolves with an object @see buildChangelog
  */
-function changelog (oldSpec, newSpec) {
+function changelog (oldSpec, newSpec, config) {
+  config = config || {};
+  const detectConfig = {
+    thresholds: config.thresholds || {}
+  };
+
   return diff(oldSpec, newSpec).then((res) => {
-    return buildChangelog(detectRenames(res));
+    return buildChangelog(detectRenames(res, detectConfig));
   })
   .catch((err) => { throw err });
 }

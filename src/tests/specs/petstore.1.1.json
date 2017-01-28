@@ -473,7 +473,7 @@
         ]
       }
     },
-    "/store/inventory": {
+    "/store/inventorrenter": {
       "get": {
         "tags": [
           "store"
