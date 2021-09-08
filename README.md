@@ -1,5 +1,7 @@
 # Swagger Changelog
 
+> **⚠️ This project is not maintained any longer. Please feel free to fork it if you need to make changes to the library.**
+
 [![npm version](https://badge.fury.io/js/swagger-changelog.svg)](https://badge.fury.io/js/swagger-changelog)
 
 Generate a changelog between two versions of a swagger spec
